@@ -84,6 +84,8 @@ h1{
 
 #startButton{
 
+    display:none;
+    margin:12px auto;
     padding:14px 24px;
 
     font-size:18px;
@@ -249,7 +251,7 @@ h1{
      ===================================================== -->
 
 <h1>
-    JAGADISH-LALITA MARRIAGE FUNCTION
+    JAGADISH - LALITA
 </h1>
 
 
@@ -261,7 +263,7 @@ h1{
         onclick="startScanner()"
         disabled>
 
-    LOADING...
+    TAP TO START CAMERA
 
 </button>
 
@@ -286,7 +288,7 @@ h1{
 
 <div id="status">
 
-    Loading OpenCV...
+    Please wait... Your photo scanner is getting ready.
 
 </div>
 
@@ -492,12 +494,14 @@ const DETECTION_COOLDOWN = 4000;
 function onOpenCvReady(){
 
     statusText.innerText =
-        "OpenCV ready. Press START SCANNER.";
+        "Starting your photo scanner...";
 
     startButton.disabled=false;
+    startButton.style.display="none";
 
-    startButton.innerText =
-        "START SCANNER";
+    // Start automatically. The browser asks for camera access
+    // if this visitor has not already granted permission.
+    startScanner();
 
 }
 
@@ -836,6 +840,7 @@ async function startScanner(){
 
         startButton.innerText =
             "SCANNING...";
+        startButton.style.display="none";
 
 
         statusText.innerText =
@@ -857,11 +862,17 @@ async function startScanner(){
 
         scannerRunning=false;
 
+        // Release the camera if a later startup step failed.
+        if(camera && camera.srcObject){
+            camera.srcObject.getTracks().forEach(track=>track.stop());
+            camera.srcObject=null;
+        }
 
         startButton.disabled=false;
 
         startButton.innerText =
-            "START SCANNER";
+            "TAP TO TRY CAMERA AGAIN";
+        startButton.style.display="inline-block";
 
 
         if(
@@ -870,7 +881,7 @@ async function startScanner(){
         ){
 
             statusText.innerText =
-                "Camera permission denied. Allow Camera and try again.";
+                "Please tap Allow when your phone asks for camera access. If you blocked it, enable Camera permission in your browser settings, then tap the button below.";
 
         }
 
@@ -880,7 +891,7 @@ async function startScanner(){
         ){
 
             statusText.innerText =
-                "No camera found on this phone.";
+                "We could not find a camera on this device.";
 
         }
 
