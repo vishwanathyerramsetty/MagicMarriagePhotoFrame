@@ -1,17 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="refresh" content="0; url=./index.html">
-  <title>Opening Photo Scanner</title>
-  <script>
-    // Send visitors straight to the camera scanner.
-    window.location.replace("./index.html");
-  </script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#8b1457">
+<title>Welcome to Half Saree Function</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg, #fff5f8, #f4d7e8, #d9e8ff);
+    color: #44203b;
+}
+
+.card {
+    width: min(94vw, 540px);
+    background: rgba(255,255,255,0.96);
+    border-radius: 26px;
+    padding: 34px 24px 30px;
+    text-align: center;
+    box-shadow: 0 14px 40px rgba(0,0,0,0.18);
+}
+
+.icon {
+    font-size: 58px;
+    margin-bottom: 6px;
+}
+
+h1 {
+    margin: 0;
+    font-size: clamp(25px, 6vw, 36px);
+    letter-spacing: 1px;
+}
+
+h2 {
+    margin: 10px 0 22px;
+    font-size: clamp(21px, 5vw, 27px);
+    font-weight: 600;
+}
+
+.subtitle {
+    font-size: 17px;
+    line-height: 1.6;
+    margin: 0 auto 24px;
+    max-width: 420px;
+}
+
+.steps {
+    text-align: left;
+    margin: 0 auto 26px;
+    max-width: 390px;
+    font-size: 17px;
+    line-height: 1.8;
+}
+
+.button {
+    display: block;
+    width: 100%;
+    text-decoration: none;
+    background: linear-gradient(135deg, #a20d55, #d14b82);
+    color: white;
+    padding: 17px 20px;
+    border-radius: 15px;
+    font-size: 20px;
+    font-weight: 700;
+    box-shadow: 0 5px 14px rgba(0,0,0,0.16);
+}
+
+.button:active {
+    transform: scale(0.98);
+}
+
+.note {
+    margin-top: 20px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: #72566b;
+}
+</style>
 </head>
-<body style="margin:0;background:#111;color:#fff;font-family:Arial,sans-serif;text-align:center;padding:40px 16px;">
-  <p>Opening your photo scanner...</p>
-  <p>If it does not open automatically, <a href="./index.html" style="color:#fff;">tap here</a>.</p>
+
+<body>
+<main class="card">
+
+    <div class="icon">🌸</div>
+
+    <h1>Welcome to JAGADISH-LALITA Marriage Function</h1>
+
+    <h2>Magic Photo Frame</h2>
+
+    <p class="subtitle">
+        Celebrate this special family occasion. Scan any of the 18 Marriage photos and watch its matching video come alive.
+    </p>
+
+    <div class="steps">
+        📱 <strong>Step 1:</strong> Tap Open Magic Scanner<br>
+        📷 <strong>Step 2:</strong> Allow camera access and point at one of the six photos<br>
+        🎬 <strong>Step 3:</strong> Watch the matching video play automatically
+    </div>
+
+    <a class="button" href="https://github.com/vishwanathyerramsetty/MagicMarriagePhotoFrame/index.html">
+        OPEN MAGIC SCANNER
+    </a>
+
+    <div class="note">
+        Please keep an internet connection on. Each photo plays its corresponding video.
+    </div>
+
+</main>
 </body>
 </html>
