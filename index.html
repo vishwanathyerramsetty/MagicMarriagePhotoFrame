@@ -249,7 +249,7 @@ h1{
      ===================================================== -->
 
 <h1>
-    MARRIAGE FUNCTION
+    JAGADISH-LALITA MARRIAGE FUNCTION
 </h1>
 
 
@@ -677,6 +677,7 @@ async function loadReferencePhoto(photo){
             };
 
 
+            img.crossOrigin="anonymous";
             img.src=photo.image;
 
         }
@@ -698,20 +699,62 @@ async function loadReferencePhotos(){
     referencePhotos=[];
 
 
-    for(
-        const photo of photoVideos
-    ){
+    for(let i=0; i<photoVideos.length; i++){
 
-        await loadReferencePhoto(
-            photo
-        );
+        const photo = photoVideos[i];
 
+        statusText.innerText =
+            "Loading photo " + (i+1) + " of " +
+            photoVideos.length + ": " + photo.id;
+
+        await loadReferencePhoto(photo);
     }
 
 
     statusText.innerText =
         "Ready. Point camera at PHOTO.";
 
+}
+
+
+/* =========================================================
+   WAIT UNTIL CAMERA FRAMES ARE AVAILABLE
+   ========================================================= */
+
+function waitForCameraReady(timeoutMs=15000){
+    return new Promise((resolve,reject)=>{
+        if(camera && camera.videoWidth > 0 && camera.videoHeight > 0){
+            resolve();
+            return;
+        }
+
+        let finished=false;
+        const cleanup=()=>{
+            camera.removeEventListener("loadedmetadata", check);
+            camera.removeEventListener("canplay", check);
+            camera.removeEventListener("playing", check);
+            clearTimeout(timer);
+        };
+        const check=()=>{
+            if(!finished && camera.videoWidth > 0 && camera.videoHeight > 0){
+                finished=true;
+                cleanup();
+                resolve();
+            }
+        };
+        const timer=setTimeout(()=>{
+            if(!finished){
+                finished=true;
+                cleanup();
+                reject(new Error("Camera opened, but no video frames arrived. Please refresh and try again."));
+            }
+        }, timeoutMs);
+
+        camera.addEventListener("loadedmetadata", check);
+        camera.addEventListener("canplay", check);
+        camera.addEventListener("playing", check);
+        check();
+    });
 }
 
 
@@ -857,6 +900,11 @@ async function startScanner(){
 
         scannerRunning=false;
 
+        // Release the camera if startup or reference-photo loading fails.
+        if(camera && camera.srcObject){
+            camera.srcObject.getTracks().forEach(track=>track.stop());
+            camera.srcObject=null;
+        }
 
         startButton.disabled=false;
 
@@ -887,8 +935,7 @@ async function startScanner(){
         else{
 
             statusText.innerText =
-                "Camera error: "+
-                error.message;
+                "Scanner startup failed: " + error.message;
 
         }
 
